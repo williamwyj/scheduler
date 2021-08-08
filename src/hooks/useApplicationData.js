@@ -17,22 +17,59 @@ export default function useApplicationData() {
   }, [])
   
   function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: {...interview}
-    }
-    const appointments ={
-      ...state.appointments,
-      [id]:appointment
-    }
-    setState({
-      ...state,
-      appointments
-    });
-
     return (
     axios
       .put(`http://localhost:8001/api/appointments/${id}`, {interview} )
+      .then(()=> {
+        const appointment = {
+          ...state.appointments[id],
+          interview: {...interview}
+        }
+        const appointments ={
+          ...state.appointments,
+          [id]:appointment
+        }
+        setState({
+          ...state,
+          appointments
+        })
+      })
+      .then(()=>{
+        console.log(state);
+        let spot = 5;
+        console.log('Spot before is', spot)
+        const day = state.days.filter(element => element.name === state.day)
+        const interviews = day[0].appointments.map(id => state.appointments[id])
+        for (const interview of interviews) {
+          if (interview.interview) {
+            spot--;
+          }
+        }
+        const days = [...state.days]
+        console.log('Spot before is', spot)
+        for (const day of days) {
+          if (day.name === state.day) {
+            day.spots = spot
+          }
+        }
+        setState(prev => {
+          let spot = 5;
+          const day = prev.days.filter(element => element.name === prev.day)
+          const interviews = day[0].appointments.map(id => prev.appointments[id])
+          for (const interview of interviews) {
+            if (interview.interview) {
+              spot--;
+            }
+          }
+          const days = [...prev.days]
+          for (const day of days) {
+            if (day.name === state.day) {
+              day.spots = spot
+            }
+          } 
+          return {...prev, days}
+        })
+      })
     )
   }
 
@@ -54,6 +91,25 @@ export default function useApplicationData() {
           ...state,
           appointments
         });
+      })
+      .then(()=>{
+        setState(prev => {
+          let spot = 5;
+          const day = prev.days.filter(element => element.name === prev.day)
+          const interviews = day[0].appointments.map(id => prev.appointments[id])
+          for (const interview of interviews) {
+            if (interview.interview) {
+              spot--;
+            }
+          }
+          const days = [...prev.days]
+          for (const day of days) {
+            if (day.name === state.day) {
+              day.spots = spot
+            }
+          } 
+          return {...prev, days}
+        })
       })
     )
   }
