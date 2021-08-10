@@ -35,23 +35,6 @@ export default function useApplicationData() {
         })
       })
       .then(()=>{
-        console.log(state);
-        let spot = 5;
-        console.log('Spot before is', spot)
-        const day = state.days.filter(element => element.name === state.day)
-        const interviews = day[0].appointments.map(id => state.appointments[id])
-        for (const interview of interviews) {
-          if (interview.interview) {
-            spot--;
-          }
-        }
-        const days = [...state.days]
-        console.log('Spot before is', spot)
-        for (const day of days) {
-          if (day.name === state.day) {
-            day.spots = spot
-          }
-        }
         setState(prev => {
           let spot = 5;
           const day = prev.days.filter(element => element.name === prev.day)
@@ -61,7 +44,9 @@ export default function useApplicationData() {
               spot--;
             }
           }
-          const days = [...prev.days]
+          const days = prev.days.map(day => {
+            return {...day}
+          })
           for (const day of days) {
             if (day.name === state.day) {
               day.spots = spot
@@ -102,7 +87,10 @@ export default function useApplicationData() {
               spot--;
             }
           }
-          const days = [...prev.days]
+          const days = prev.days.map(day => {
+            return {...day}
+          })
+        
           for (const day of days) {
             if (day.name === state.day) {
               day.spots = spot
