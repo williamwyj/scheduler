@@ -36,8 +36,8 @@ export default function useApplicationData() {
       })
       .then(()=>{
         setState(prev => {
-          let spot = 5;
           const day = prev.days.filter(element => element.name === prev.day)
+          let spot = day[0].appointments.length;
           const interviews = day[0].appointments.map(id => prev.appointments[id])
           for (const interview of interviews) {
             if (interview.interview) {
@@ -79,8 +79,8 @@ export default function useApplicationData() {
       })
       .then(()=>{
         setState(prev => {
-          let spot = 5;
           const day = prev.days.filter(element => element.name === prev.day)
+          let spot = day[0].appointments.length;
           const interviews = day[0].appointments.map(id => prev.appointments[id])
           for (const interview of interviews) {
             if (interview.interview) {
