@@ -29,3 +29,8 @@ Interview scheduler is an application built with react. User is able to look at 
 Integration testing done with Jest, end to end test with Cypress. Test coverage 100%
 
 Please see below screen shots of the app
+
+!["Screenshot description"](docs/Appointment page.png)
+!["Screenshot description"](docs/Appointment Form Create Edit.png)
+!["Screenshot description"](docs/Delete Confirmation.png)
+!["Screenshot description"](docs/Appointment After Deleted.png)
