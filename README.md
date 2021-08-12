@@ -30,7 +30,7 @@ Integration testing done with Jest, end to end test with Cypress. Test coverage 
 
 Please see below screen shots of the app
 
-!["Screenshot description"](docs/Appointment page.png)
+!["Screenshot description"](https://github.com/williamwyj/scheduler/blob/ce189f8cd20aa5a40e8d4f42907ecf0a31406e5d/docs/Appointment%20page.png)
 !["Screenshot description"](docs/Appointment Form Create Edit.png)
 !["Screenshot description"](docs/Delete Confirmation.png)
 !["Screenshot description"](docs/Appointment After Deleted.png)
