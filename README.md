@@ -21,3 +21,11 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Description
+
+Interview scheduler is an application built with react. User is able to look at available appointment spots, add, edit and cancel appointments. The page will update without refreshing. The application component was built with Storybook. 
+
+Integration testing done with Jest, end to end test with Cypress. Test coverage 100%
+
+Please see below screen shots of the app
