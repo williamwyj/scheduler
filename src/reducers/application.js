@@ -2,6 +2,7 @@ const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 const SET_SPOTS = "SET_SPOTS"
+const SET_INTERVIEW_WS = "SET_INTERVIEW_WS"
 
 export default function reducer(state, action) {
     
@@ -17,6 +18,25 @@ export default function reducer(state, action) {
     }
     case SET_INTERVIEW: {
       const appointments = action.appointments
+      return {...state, appointments}
+    }
+    case SET_INTERVIEW_WS: {
+      let appointment = {}
+      if (action.appointment.interview) {
+        appointment = {
+          ...state.appointments[action.appointment.id],
+          interview: {...action.appointment.interview}
+        }
+      } else if (!action.appointment.interview) {
+        appointment = {
+          ...state.appointments[action.appointment.id],
+          interview: null
+      }
+      }
+      const appointments ={
+        ...state.appointments,
+        [action.appointment.id]:appointment
+      }
       return {...state, appointments}
     }
     case SET_SPOTS: {
@@ -45,4 +65,4 @@ export default function reducer(state, action) {
   }
 }
 
-export {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, SET_SPOTS}
+export {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, SET_SPOTS, SET_INTERVIEW_WS}

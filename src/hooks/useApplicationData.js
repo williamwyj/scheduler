@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import axios from 'axios';
 
-import reducer, {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, SET_SPOTS} from "reducers/application";
+import reducer, {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, SET_SPOTS, SET_INTERVIEW_WS} from "reducers/application";
 
 export default function useApplicationData() {
 
@@ -13,8 +13,9 @@ export default function useApplicationData() {
   });
 
   const setDay = day => dispatch({type: SET_DAY, day});
-
+  
   useEffect(() => {
+    
     Promise.all([
       axios
         .get('/api/days'),
@@ -26,6 +27,31 @@ export default function useApplicationData() {
       dispatch({type: SET_APPLICATION_DATA, days: all[0].data, appointments: all[1].data, interviewers: all[2].data})
     })
   }, [])
+
+  useEffect(() => {
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL)
+    webSocket.onopen = function (event) {
+      webSocket.send("ping")
+    }
+    webSocket.onmessage = function(event) {
+      const eventData = JSON.parse(event.data)
+      if (eventData.type === 'SET_INTERVIEW' && eventData.interview) {
+        const appointment = {
+          id: [eventData.id],
+          interview: {...eventData.interview}
+        }
+        dispatch({type: SET_INTERVIEW_WS, appointment})
+      } else if (eventData.type === 'SET_INTERVIEW' && !eventData.interview) {
+        const appointment = {
+          id: [eventData.id],
+          interview: null
+        }
+        dispatch({type: SET_INTERVIEW_WS, appointment})
+      }
+    }
+  }, [])
+
+
   
   function bookInterview(id, interview) {
     return (
